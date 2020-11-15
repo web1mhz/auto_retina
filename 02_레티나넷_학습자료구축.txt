@@ -1,0 +1,22 @@
+이번 과정은 딥러닝 물체탐지에서 
+가장 중요한 학습자료를 생성하는 방법을 설명합니다.
+
+0. 가상환경 접속
+
+conda 프롬프트를 관리자권한으로 시작
+conda activate auto_retina
+cd c:\auto_ml
+
+1. 레이블 생성 프로그램 다운로드
+# labelImg 깃허브 주소를 통해서 다운로드
+git clone https://github.com/tzutalin/labelImg.git
+cd labelImg
+
+2. 레이블 생성 프로그램 설치
+conda install pyqt=5
+pyrcc5 -o libs/resources.py resources.qrc
+
+3. 레이블 생성 프로그램 확인
+python labelImg.py
+
+이상으로 마치겠습니다. 수고

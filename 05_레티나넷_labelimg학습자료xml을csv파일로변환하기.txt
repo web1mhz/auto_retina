@@ -1,0 +1,49 @@
+이번 강좌는 레티나넷 모델에 맞는 형태의 입력자료를 만드는 과정을 설명합니다.
+
+1. 입력자료 포맷
+
+이미지경로, x_min, y_min, x_max, y_max, 클래스명
+
+c:\image\image001.png,10,10,110,110,hand
+c:\image\image002.png,20,110,110,210,hand
+c:\image\image003.png,110,10,120,110,hand
+...
+...
+...
+c:\image\image100.png,110,210,210,310,hand
+
+
+2. XML파일을 CSV파일로 변환하는 함수를 생성
+
+import os
+import glob
+import pandas as pd
+import xml.etree.ElementTree as ET
+
+
+def xml_to_csv(path):
+    xml_list = []
+    for xml_file in glob.glob(path + '/*.xml'):
+        tree = ET.parse(xml_file)
+        root = tree.getroot()
+
+        for member in root.findall('object'):
+            value = ('images/'+root.find('filename').text,
+                     int(member[4][0].text),
+                     int(member[4][1].text),
+                     int(member[4][2].text),
+                     int(member[4][3].text),
+                     member[0].text,
+                     )
+            xml_list.append(value)
+    column_name = ['filename', 'xmin','ymin','xmax', 'ymax', 'class']
+    xml_df = pd.DataFrame(xml_list, columns=column_name)
+    return xml_df
+
+
+image_path = os.path.join(os.getcwd(), 'images/')
+dataset_df = xml_to_csv(image_path)
+
+
+print('Completed')
+

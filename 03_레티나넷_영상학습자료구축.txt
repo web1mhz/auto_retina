@@ -1,0 +1,58 @@
+이번 강좌는 쥬피터 노트북에서 웹캠을 구동하고
+촬영된 사진을 저장하는 과정을 설명한다.
+
+0. 가상환경에 접속한다.
+
+conda 프롬프트를 관리자권한으로 실행한다.
+conda activate auto_retina 를 실행해서 가상환경을 활성화
+cd c:\auto_ml 로 이동
+jupyter notebook를 실행한다.
+혹시 jupyter notebook 실행해서 오류가 나오면
+다음 1번으로 쥬피터 노트북을 설치한다.
+설치된 경우는 패스하고 2번을 진행한다.
+
+1. 쥬피터 노트북 설치
+conda install jupyter notebook
+conda install nb_conda -y
+pip install ipykernel
+python -m ipykernel install --user --name auto_retina
+
+jupyter notebook 실행
+
+2. 자료 생성
+# get the reference to the webcam
+import cv2
+
+# 노트북 webcam으로 사진 수집
+# 아래 구문을 오류가 나옴 
+#camera = cv2.VideoCapture(0)
+
+# 내 집에 있는 삼성 sens 나인 노트북 웹캠 구동할 때
+camera = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+
+imagesList = []
+while(True):   
+    _, frame = camera.read()    
+    cv2.imshow("Camera", frame)
+    key = cv2.waitKey(1)
+    if key & 0xFF == ord("q"):
+        break
+    elif key & 0xFF == ord("1"):
+        imagesList.append(frame)
+        print('frame saved')
+camera.release()
+cv2.destroyAllWindows()
+
+# 위의 웹캠 구문을 실행하고 1를 눌러 사진을 캡처하고
+# 사진 캡처를 완료했을때 q를 눌러 종료한 뒤
+# 아래 구문을 실행해서 캡쳐사진을 
+# c:\labelimg\data 폴더에 숫자 일련번호를 파일이름으로 하고 저장한다.
+
+3. 웹캠으로 촬영된 사진을 저장하기
+
+for i, img in enumerate(imagesList):    
+    image = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    image = cv2.resize(image, (224, 224))    
+    cv2.imwrite('./labelImg/data/{}.png'.format(i), cv2.cvtColor(image,cv2.COLOR_BGR2RGB))
+
+여기까지 웹캠으로 촬영된 사진을 저장하는 과정입니다.

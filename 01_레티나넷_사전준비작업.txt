@@ -1,0 +1,41 @@
+이번 강좌는 케라스레티나넷 모델을 이용해서
+웹캠으로 기록되는 영상에서 물체를 자동으로 탐지하는 
+과정을 설명합니다.
+
+# auto_ml 폴더생성
+
+0. auto 폴더를 기준폴더으로 한다.
+
+cd c:\auto_ml
+cmd 
+
+1. 케라스 레티나넷 모델 다운로드
+git clone https://github.com/DavidReveloLuna/keras-retinanet.git
+
+2. 가상환경 생성
+
+conda 프롬프트를 관리자권한으로 실행
+conda create -n auto_retina python=3.7
+conda env list # 가상환경 확인
+
+3. 가상환경 접속
+conda activate auto_retina
+cd c:\auto_ml
+
+4. 패키지 설치
+pip install keras==2.3.1
+pip install tensorflow==2.1
+
+
+5. GPU 확인
+python
+import tensorflow as tf
+tf.config.list_physical-devices('GPU')
+
+6. 케라스 레티나넷 모델 설치
+
+cd keras-retinanet/
+pip install .
+python setup.py build_ext --inplace
+
+이상 사전준비작업을 마치겠습니다.. 수고하세요.
